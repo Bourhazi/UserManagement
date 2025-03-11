@@ -1,80 +1,24 @@
-import React, { Component } from "react";
-
+import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
-
+import { useDispatch } from "react-redux";
 import AddUserDialog from "./component";
 import { addUser } from "../../redux/UserReducer/action";
-import { connect } from "react-redux";
 
-const mapDispatchToProps = { addUser };
+const AddUserDialogContainer = () => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
-class AddUserDialogContainer extends Component {
-  state = {
-    open: false,
-    newUser: {
-      name: "",
-      username: "",
-      email: "",
-      address: { city: "" },
-      phone: "",
-    },
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
+  return (
+    <Box sx={{ padding: 2 }}>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        Add User
+      </Button>
+      <AddUserDialog open={open} handleClose={handleClose} />
+    </Box>
+  );
+};
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState((prevState) => ({
-      newUser: {
-        ...prevState.newUser,
-        ...(name === "city"
-          ? { address: { ...prevState.newUser.address, city: value } }
-          : { [name]: value }),
-      },
-    }));
-  };
-
-  handleSubmit = () => {
-    const { newUser } = this.state;
-    const userWithId = { ...newUser, id: Math.floor(Math.random() * 1000) };
-    this.props.addUser(userWithId);
-    this.handleClose();
-
-    this.setState({
-      newUser: {
-        name: "",
-        username: "",
-        email: "",
-        address: { city: "" },
-        phone: "",
-      },
-    });
-  };
-
-  render() {
-    const { open, newUser } = this.state;
-
-    return (
-      <Box sx={{ padding: 2 }}>
-        <Button variant="contained" color="primary" onClick={this.handleOpen}>
-          Add User
-        </Button>
-        <AddUserDialog
-          open={open}
-          handleClose={this.handleClose}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          newUser={newUser}
-        />
-      </Box>
-    );
-  }
-}
-
-export default connect(null, mapDispatchToProps)(AddUserDialogContainer);
+export default AddUserDialogContainer;

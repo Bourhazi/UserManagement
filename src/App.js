@@ -1,14 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./components/Home/component";
 import "./App.css";
-import UserListContainer from "./components/UserList/index";
 import Footer from "./components/Footer/component";
 import Navbar from "./components/Navbar/component";
 import NotFound from "./components/NotFound/component";
 import UserDetails from "./pages/User";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Navbar />
@@ -16,9 +14,9 @@ function App() {
       <Footer />
     </div>
   );
-}
+};
 
-function Layouts() {
+const Layouts = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -28,6 +26,6 @@ function Layouts() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default Layouts;
